@@ -9,56 +9,45 @@
     <title>Document</title>
 </head>
 <body>
+
+    <!-- In this module, we will print the text on the screen as the user types it in the text box 
+    Also, will prevent the default action (page refresh) of submit button, and instead print value to console. -->
     
     <div id ="app"></div>
 
-    <!-- On inspect, you will see the script (component) will be rendered under above div element. -->
     <script type="text/babel">
         class App extends React.Component {
-            // 1st method for defining state.
             state = {
                 name:  'Sal',
                 age: 35
             }
-            handleClick = (e) => {
-                //console.log(e.target)
-                // below command wont work because of the scope of this keyword.
-                // using '=>' above will bind instance of 'this' to this function 
-                // to change the state value dont use this.state.name = 'abc', a bad practice
-                // instead use setState
+            handleChange = (e) => {
                 this.setState({
-                    name: 'Saloni'
-                });
-                console.log(this.state);
+                    name: e.target.value
+                })
             }
-            handleMouseOver(e) {
-                console.log(e.target, e.pageX); 
-            }
-            handleCopy(e) {
-                console.log("Not allowed to copy the content"); 
+            handlesubmit = (e) => {
+                e.preventDefault();
+                console.log('Form submitted', this.sttate.name);
             }
             render() {
                 return (
-                    // we need to have one root tag for jsx to work
-                    // we use "className" instead of "class"
                     <div className="app-content">
-                        <h1> Hey </h1>
-                        <p> My Name is: { this.state.name } and I am { this.state.age }</p>
-                        <button onClick= { this.handleClick }> Click Me</button>
-                        <button onMouseOver={this.handleMouseOver}>Hover Me</button>
-                        <p onCopy={ this.handleCopy }>This is to test a function where user will try to copy this content.</p>
+                        <h1> My Name is: { this.state.name } and I am { this.state.age } </h1>
+                        <form onSubmit={this.handlesubmit}>
+                            <input type="text" onChange= { this.handleChange }/>
+                            <button> Submit </button>
+                        </form>
                     </div>
                     
                 )
             }
         }
 
-        // render class App component to DOM
-        // (<class you want to render />, where you want to render it to DOM>)
+
         ReactDOM.render(<App />, document.getElementById('app'));
     </script>
 </body>
 </html>
 
 
-<!-- 33 We dont invoke handleClick using "()" becoz it will invoke the function straight away when the page loads -->
